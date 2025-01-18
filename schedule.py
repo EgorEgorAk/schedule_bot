@@ -225,7 +225,7 @@ def handle_reply_button(message):
 
 @bot.message_handler(func=lambda message: message.text == "Суббота")
 def handle_reply_button(message):
-    parsing_sb()
+    parsing_sb(message)
 
 @bot.message_handler(func=lambda message: True)  
 def handle_unknown_message(message):
