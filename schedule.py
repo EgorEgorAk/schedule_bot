@@ -220,13 +220,11 @@ def handle_reply_button(message):
 
 @bot.message_handler(func=lambda message: message.text == "Суббота")
 def handle_reply_button(message):
-    parsing_sb(message)
+    parsing_sb()
 
 @bot.message_handler(func=lambda message: True)  
 def handle_unknown_message(message):
     bot.send_message(message.chat.id, "ОШИБКА: неизвестная команда или сообщение.")
 
 
-
-
-    bot.polling(none_stop=True)
+bot.polling(none_stop=True)
