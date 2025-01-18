@@ -62,10 +62,11 @@ def parsing_pn (message):
 
     screenshot_path = "screenshots/monday_screenshot.png"
     driver.save_screenshot(screenshot_path)
-    driver.quit()
-    bot.send_photo(message.chat.id,screenshot_path)
+    
+    with open(screenshot_path, 'rb') as photo:
+            bot.send_photo(message.chat.id, photo)
 
-    return screenshot_path
+    driver.quit()
 
 
 def parsing_vt(message):
