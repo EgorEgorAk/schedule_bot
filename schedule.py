@@ -30,7 +30,7 @@ def send_message(message):
     bot.send_message(message.chat.id,"Привет,выбери день недели.",reply_markup=reply_keyboard)
 
 
-def parsing_pn ():
+def parsing_pn (message):
     driver = webdriver.Chrome()
     driver.get("https://www.sut.ru/")
 
@@ -58,7 +58,7 @@ def parsing_pn ():
     return screenshot_path
 
 
-def parsing_vt():
+def parsing_vt(message):
     driver = webdriver.Chrome()
     driver.get("https://www.sut.ru/")
 
@@ -84,7 +84,7 @@ def parsing_vt():
     return screenshot_path
 
 
-def parsing_sr():
+def parsing_sr(message):
     driver = webdriver.Chrome()
     driver.get("https://www.sut.ru/")
 
@@ -110,7 +110,7 @@ def parsing_sr():
     return screenshot_path
 
 
-def parsing_cht():
+def parsing_cht(message):
     driver = webdriver.Chrome()
     driver.get("https://www.sut.ru/")
 
@@ -136,7 +136,7 @@ def parsing_cht():
     return screenshot_path
 
 
-def parsing_pt():
+def parsing_pt(message):
     driver = webdriver.Chrome()
     driver.get("https://www.sut.ru/")
 
@@ -161,7 +161,7 @@ def parsing_pt():
 
     return screenshot_path
 
-def parsing_sb():
+def parsing_sb(message):
     driver = webdriver.Chrome()
     driver.get("https://www.sut.ru/")
 
@@ -175,6 +175,11 @@ def parsing_sb():
     time.sleep(3) 
     ikpi = driver.find_element(By.LINK_TEXT, "ИКПИ-11")
     ikpi.click()
+
+    data = driver.find_element(By.ID,"rasp-date")
+    data.click()
+
+
 
     time.sleep(3)  
     sb = driver.find_element(By.LINK_TEXT, "суббота")
@@ -190,7 +195,7 @@ def parsing_sb():
 def send_schedule(message):
     bot.send_message(message.chat.id, "Подождите, загружаю расписание...")
     try:
-        screenshot_path = parsing_sb()  
+        screenshot_path = parsing_sb(message)  
         with open(screenshot_path, 'rb') as photo:
             bot.send_photo(message.chat.id, photo)  
     except Exception as e:
