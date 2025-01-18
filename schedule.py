@@ -29,6 +29,15 @@ def send_message(message):
     
     bot.send_message(message.chat.id,"Привет,выбери день недели.",reply_markup=reply_keyboard)
 
+@bot.message_handler(commands=['schedule'])
+def send_schedule(message):
+    bot.send_message(message.chat.id, "Подождите, загружаю расписание...")
+    try:
+        screenshot_path = parsing_sb(message)  
+        with open(screenshot_path, 'rb') as photo:
+            bot.send_photo(message.chat.id, photo)  
+    except Exception as e:
+        bot.send_message(message.chat.id, f"Произошла ошибка: {e}")
 
 def parsing_pn (message):
     driver = webdriver.Chrome()
@@ -191,15 +200,7 @@ def parsing_sb(message):
 
     return screenshot_path
 
-@bot.message_handler(commands=['schedule'])
-def send_schedule(message):
-    bot.send_message(message.chat.id, "Подождите, загружаю расписание...")
-    try:
-        screenshot_path = parsing_sb(message)  
-        with open(screenshot_path, 'rb') as photo:
-            bot.send_photo(message.chat.id, photo)  
-    except Exception as e:
-        bot.send_message(message.chat.id, f"Произошла ошибка: {e}")
+
 
 
 
