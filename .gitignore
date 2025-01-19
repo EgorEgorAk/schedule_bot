@@ -1,1 +1,6 @@
 token_1.py
+screenshots/*
+!screenshots/.gitkeep
+.vscode/sftp.json
+server-ssh.command
+upload_to_server.sh
