@@ -22,16 +22,20 @@ bot = telebot.TeleBot(TOKEN, parse_mode=None)
 def send_message(message):
     
     reply_keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False)
-    reply_button_sb = types.KeyboardButton("Расписание")
-    reply_keyboard.add(reply_button_sb)
-    
+
+    reply_button_scheldule = types.KeyboardButton("Расписание")
+    reply_button_next_week = types.KeyboardButton("Следующая неделя")
+    reply_button_previous_week = types.KeyboardButton("Предыдущая неделя")
+    reply_keyboard.add(reply_button_scheldule)
+    reply_keyboard.add(reply_button_next_week)
+    reply_keyboard.add(reply_button_previous_week)
     bot.send_message(message.chat.id,"Привет,выбери день недели.",reply_markup=reply_keyboard)
 
 @bot.message_handler(commands=['schedule'])
 def send_schedule(message):
     bot.send_message(message.chat.id, "Подождите, загружаю расписание...")
     try:
-        screenshot_path = parsing_sb(message)  
+        screenshot_path = parsing_schlude(message)  
         with open(screenshot_path, 'rb') as photo:
             bot.send_photo(message.chat.id, photo)  
     except Exception as e:
@@ -39,16 +43,19 @@ def send_schedule(message):
 
 
 
+    
 
 
-def parsing_sb(message):
+
+
+def parsing_schlude(message):
     driver = webdriver.Chrome()
     width = 1360
     height = 1250  # Округлённое значение высоты
     driver.set_window_size(width, height)
     
     # Загрузка страницы
-    driver.get("https://www.sut.ru/studentu/raspisanie/raspisanie-zanyatiy-studentov-ochnoy-i-vecherney-form-obucheniya?group=56043&date=2024-12-02")
+    driver.get(f'https://www.sut.ru/studentu/raspisanie/raspisanie-zanyatiy-studentov-ochnoy-i-vecherney-form-obucheniya?group=56043&date=2024-12-01')
     time.sleep(3)
     
     # Уменьшение масштаба страницы
@@ -83,9 +90,17 @@ def parsing_sb(message):
 
 @bot.message_handler(func=lambda message: message.text == "Расписание")
 def handle_reply_button(message):
-    screenshot_path1 = parsing_sb(message)
+    screenshot_path1 = parsing_schlude(message)
     with open(screenshot_path1, mode="rb") as screenshot_descriptor:
         bot.send_photo(message.chat.id, screenshot_descriptor)
+
+@bot.message_handler(func=lambda message: message.text == "Следующая неделя")
+def handle_reply_button(message):
+    bot.send_message(message.chat.id,"Рсаписание на следующую неделю")
+
+@bot.message_handler(func=lambda message: message.text == "Предыдущая неделя")
+def handle_reply_button(message):
+    bot.send_message(message.chat.id,"Рсаписание на пердыдущую неделю")
 
         
 
